@@ -1,5 +1,5 @@
-Turbo Assembler	 Version 2.0	    10/02/15 15:52:08	    Page 1
-lab1\test.asm
+Turbo Assembler	 Version 2.0	    10/02/15 19:23:48	    Page 1
+src\lab1\test.asm
 
 
 
@@ -31,7 +31,7 @@ lab1\test.asm
      26	0011			     code ends			     ;Конец сегмента кода
      27				     end start			     ;Конец текста программы с точкой    +
      28				     входа
-Turbo Assembler	 Version 2.0	    10/02/15 15:52:08	    Page 2
+Turbo Assembler	 Version 2.0	    10/02/15 19:23:48	    Page 2
 Symbol Table
 
 
@@ -41,7 +41,7 @@ Symbol Name			  Type	 Value
 
 ??DATE				  Text	 "10/02/15"
 ??FILENAME			  Text	 "test	  "
-??TIME				  Text	 "15:52:08"
+??TIME				  Text	 "19:23:48"
 ??VERSION			  Number 0200
 @CPU				  Text	 0101H
 @CURSEG				  Text	 CODE
