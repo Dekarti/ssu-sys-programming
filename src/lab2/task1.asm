@@ -36,6 +36,12 @@ start:	mov	ax, @data
 	mov	dl, bl
 	call	printd
 
+	mov	dx, 13
+	int	21h
+	mov	ah, 02h
+	mov	dx, 10
+	int	21h
+
 	mov	ax, 4c00h
 	int	21h
 

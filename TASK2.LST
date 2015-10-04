@@ -1,0 +1,131 @@
+Turbo Assembler	 Version 2.0	    10/04/15 13:36:47	    Page 1
+src\lab2\task2.asm
+
+
+
+      1	0000				     .model small
+      2	0000				     .stack 100h
+      3	0000				     .data
+      4	0000  0004				     D_ONE dw 04h
+      5	0002  0003				     D_TWO dw 03h
+      6	0004  20				     SPACE db 20h
+      7	0005				     .code
+      8
+      9	0000			     printd  proc
+     10	0000  8A F8			     mov     bh, al
+     11	0002  B4 02			     mov     ah, 02h
+     12	0004  CD 21			     int     21h
+     13	0006  8A C7			     mov     al, bh
+     14	0008  C3			     ret
+     15	0009			     printd  endp
+     16
+     17				     ;Процедура перехода на новую строчку
+     18	0009			     enter   proc
+*Warning* src\lab2\task2.asm(18) Reserved word used as symbol: ENTER
+     19	0009  BA 000D			     mov     dx, 13
+     20	000C  CD 21			     int     21h
+     21	000E  B4 02			     mov     ah, 02h
+     22	0010  BA 000A			     mov     dx, 10
+     23	0013  CD 21			     int     21h
+     24	0015  C3			     ret
+     25	0016			     enter   endp
+     26
+     27				     ;Процедура вывода значений ax, bx через пробел
+     28	0016			     prints  proc
+     29
+     30					     ;Вывод первой цифры
+     31	0016  8A D0			     mov     dl, al
+     32	0018  E8 FFE5			     call    printd
+     33
+     34					     ;Вывод пробела
+     35	001B  8A 16 0004r		     mov     dl, SPACE
+     36	001F  B4 02			     mov     ah, 02h
+     37	0021  CD 21			     int     21h
+     38
+     39					     ;Вывод второй
+     40	0023  8A D3			     mov     dl, bl
+     41	0025  E8 FFD8			     call    printd
+     42
+     43					     ;Переход на новую строку
+     44	0028  E8 FFDE			     call    enter
+     45	002B  C3			     ret
+     46	002C			     prints  endp
+     47
+     48	002C  B8 0000s		     start:  mov     ax, @data
+     49	002F  8E D8			     mov     ds, ax
+     50
+     51					     ;Запись цифр в регистры
+     52	0031  A1 0000r			     mov     ax, D_ONE
+     53	0034  05 0030			     add     ax, 30h
+     54	0037  8B 1E 0002r		     mov     bx, D_TWO
+     55	003B  83 C3 30			     add     bx, 30h
+     56
+Turbo Assembler	 Version 2.0	    10/04/15 13:36:47	    Page 2
+src\lab2\task2.asm
+
+
+
+     57					     ;Сохранение значений регистров в стэке
+     58	003E  50			     push    ax
+     59	003F  53			     push    bx
+     60
+     61					     ;Вывод первой строки
+     62	0040  E8 FFD3			     call    prints
+     63
+     64					     ;Восстановление значений регистров
+     65	0043  5B			     pop     bx
+     66	0044  58			     pop     ax
+     67
+     68					     ;Обмен значений
+     69	0045  93			     xchg    ax, bx
+     70
+     71					     ;Вывод второй строки
+     72	0046  E8 FFCD			     call    prints
+     73
+     74					     ;Завершение работы	программы
+     75	0049  B8 4C00			     mov     ax, 4c00h
+     76	004C  CD 21			     int     21h
+     77
+     78					     end     start
+Turbo Assembler	 Version 2.0	    10/04/15 13:36:47	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/04/15"
+??FILENAME			  Text	 "task2	  "
+??TIME				  Text	 "13:36:47"
+??VERSION			  Number 0200
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 TASK2
+@MODEL				  Text	 2
+@WORDSIZE			  Text	 2
+D_ONE				  Word	 DGROUP:0000
+D_TWO				  Word	 DGROUP:0002
+ENTER				  Near	 _TEXT:0009
+PRINTD				  Near	 _TEXT:0000
+PRINTS				  Near	 _TEXT:0016
+SPACE				  Byte	 DGROUP:0004
+START				  Near	 _TEXT:002C
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0005 Word	  Public  DATA
+_TEXT				  16  004E Word	  Public  CODE
+Turbo Assembler	 Version 2.0	    10/04/15 13:36:47	    Page 4
+Error Summary
+
+
+
+*Warning* src\lab2\task2.asm(18) Reserved word used as symbol: ENTER
+

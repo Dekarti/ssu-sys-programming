@@ -1,0 +1,87 @@
+Turbo Assembler	 Version 2.0	    10/03/15 18:45:34	    Page 1
+src\lab2\task1.asm
+
+
+
+      1	0000				     .model small
+      2	0000				     .stack 100h
+      3	0000				     .data
+      4	0000  0004				     D_ONE dw 04h
+      5	0002  0003				     D_TWO dw 03h
+      6	0004  20				     SPACE db 20h
+      7	0005				     .code
+      8
+      9	0000			     printd  proc
+     10	0000  8A F8			     mov     bh, al
+     11	0002  B4 02			     mov     ah, 02h
+     12	0004  CD 21			     int     21h
+     13	0006  8A C7			     mov     al, bh
+     14	0008  C3			     ret
+     15	0009			     printd  endp
+     16
+     17	0009  B8 0000s		     start:  mov     ax, @data
+     18	000C  8E D8			     mov     ds, ax
+     19
+     20					     ;Запись цифр в регистры
+     21	000E  A1 0000r			     mov     ax, D_ONE
+     22	0011  05 0030			     add     ax, 30h
+     23	0014  8B 1E 0002r		     mov     bx, D_TWO
+     24	0018  83 C3 30			     add     bx, 30h
+     25
+     26					     ;Вывод первой цифры
+     27	001B  8A D0			     mov     dl, al
+     28	001D  E8 FFE0			     call    printd
+     29
+     30					     ;Вывод пробела
+     31	0020  8A 16 0004r		     mov     dl, SPACE
+     32	0024  B4 02			     mov     ah, 02h
+     33	0026  CD 21			     int     21h
+     34
+     35					     ;Вывод второй
+     36	0028  8A D3			     mov     dl, bl
+     37	002A  E8 FFD3			     call    printd
+     38
+     39	002D  BA 000D			     mov     dx, 13
+     40	0030  CD 21			     int     21h
+     41	0032  B4 02			     mov     ah, 02h
+     42	0034  BA 000A			     mov     dx, 10
+     43	0037  CD 21			     int     21h
+     44
+     45	0039  B8 4C00			     mov     ax, 4c00h
+     46	003C  CD 21			     int     21h
+     47
+     48					     end     start
+Turbo Assembler	 Version 2.0	    10/03/15 18:45:34	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/03/15"
+??FILENAME			  Text	 "task1	  "
+??TIME				  Text	 "18:45:34"
+??VERSION			  Number 0200
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 TASK1
+@MODEL				  Text	 2
+@WORDSIZE			  Text	 2
+D_ONE				  Word	 DGROUP:0000
+D_TWO				  Word	 DGROUP:0002
+PRINTD				  Near	 _TEXT:0000
+SPACE				  Byte	 DGROUP:0004
+START				  Near	 _TEXT:0009
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0005 Word	  Public  DATA
+_TEXT				  16  003E Word	  Public  CODE
+
