@@ -6,3 +6,6 @@ tasm %fullpath%.asm /l
 tlink /x %filename%.obj %3
 %filename%
 del %filename%.obj
+
+
+
