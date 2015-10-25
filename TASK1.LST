@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 2.0	    10/23/15 07:13:20	    Page 1
+Turbo Assembler	 Version 2.0	    10/25/15 23:21:04	    Page 1
 src\lab3\task1.asm
 
 
@@ -6,52 +6,73 @@ src\lab3\task1.asm
       1	0000				     .model small
       2	0000				     .stack 100h
       3	0000				     .data
-      4	0000				     .code
-      5
-      6				     ;Вывод символа	из dl
-      7	0000			     printd  proc
-      8	0000  50			     push    ax
-      9	0001  B4 02			     mov     ah, 02h
-     10	0003  80 C2 30			     add     dl, 48
-     11	0006  80 FA 39			     cmp     dl, 39h
-     12	0009  7E 03			     jle     _lbl1
-     13	000B  80 C2 07			     add     dl, 07
-     14	000E  CD 21		     _lbl1:  int     21h
-     15	0010  58			     pop     ax
-     16	0011  C3			     ret
-     17	0012			     printd  endp
-     18
-     19	0012  B8 0000s		     start:  mov     ax, @data
-     20	0015  8E D8			     mov     ds, ax
-     21
-     22
-     23					     ; Заносим цифры числа поочередно в стек
-     24	0017  33 C9			     xor     cx, cx
-     25	0019  B8 AABC			     mov     ax, 0AABCh
-     26	001C  BB 0010			     mov     bx, 16
-     27	001F  33 D2			     xor     dx, dx
-     28	0021  F7 F3		      _lbl2: div     bx
-     29	0023  52			     push    dx
-     30	0024  33 D2			     xor     dx, dx
-     31	0026  41			     inc     cx
-     32	0027  3D 0000			     cmp     ax, 00h
-     33	002A  75 F5			     jne     _lbl2
-     34
-     35	002C  5A		     _lbl3:  pop     dx
-     36	002D  E8 FFD0			     call    printd
-     37	0030  E2 FA			     loop    _lbl3
-     38
-     39	0032  B4 02			     mov     ah, 02h
-     40	0034  BA 000D			     mov     dx, 13
-     41	0037  CD 21			     int     21h
-     42	0039  BA 000A			     mov     dx, 10
-     43	003C  CD 21			     int     21h
-     44
-     45	003E  B8 4C00			     mov     ax, 4c00h	     ;Завершение работы	программы
-     46	0041  CD 21			     int     21h
+      4	0000  20 20 20 20 20 24			     result	     db	'     $'
+      5	0006  0A 0D 24				     newline	     db	0Ah, 0Dh, '$'
+      6	0009				     .code
+      7
+      8				     ; Вывод символа из dl
+      9	0000			     printd  proc
+     10	0000  50			     push    ax
+     11	0001  B4 02			     mov     ah, 02h
+     12	0003  80 C2 30			     add     dl, 48
+     13	0006  80 FA 39			     cmp     dl, 39h
+     14	0009  7E 03			     jle     _lbl1
+     15	000B  80 C2 07			     add     dl, 07
+     16	000E  CD 21		     _lbl1:  int     21h
+     17	0010  58			     pop     ax
+     18	0011  C3			     ret
+     19	0012			     printd  endp
+     20
+     21	0012			     toasc   proc
+     22					     ; Заносим цифры числа поочередно в стек
+     23	0012  33 C9			     xor     cx, cx
+     24	0014  BB 000A			     mov     bx, 10
+     25	0017  33 D2			     xor     dx, dx
+     26	0019  F7 F3		      _lbl2: div     bx
+     27	001B  52			     push    dx
+     28	001C  33 D2			     xor     dx, dx
+     29	001E  41			     inc     cx
+     30	001F  3D 0000			     cmp     ax, 00h
+     31	0022  75 F5			     jne     _lbl2
+     32
+     33	0024  BE 0000			     mov     si, 0
+     34	0027  5A		     _lbl3:  pop     dx
+     35					     ;call   printd
+     36	0028  50			     push    ax
+     37	0029  80 C2 30			     add     dl, 48
+     38	002C  80 FA 39			     cmp     dl, 39h
+     39	002F  7E 03			     jle     _lbl4
+     40	0031  80 C2 07			     add     dl, 07
+     41	0034  88 94 0000r	     _lbl4:  mov     result[si], dl
+     42	0038  58			     pop     ax
+     43	0039  46			     inc     si
+     44	003A  E2 EB			     loop    _lbl3
+     45	003C  C3			     ret
+     46	003D			     toasc   endp
      47
-     48					     end     start
-Turbo Assembler	 Version 2.0	    10/23/15 07:13:20	    Page 2
+     48	003D  B8 0000s		     start:  mov     ax, @data
+     49	0040  8E D8			     mov     ds, ax
+     50
+     51	0042  B8 000C			     mov     ax, 12
+     52	0045  E8 FFCA			     call    toasc
+     53
+     54	0048  B4 09			     mov     ah, 09h
+     55	004A  BA 0000r			     mov     dx, offset	result
+     56	004D  CD 21			     int     21h
+     57	004F  BA 0006r			     mov     dx, offset	newline
+Turbo Assembler	 Version 2.0	    10/25/15 23:21:04	    Page 2
+src\lab3\task1.asm
+
+
+
+     58	0052  CD 21			     int     21h
+     59
+     60	0054  B8 4C00			     mov     ax, 4c00h	     ;Завершение работы	программы
+     61	0057  CD 21			     int     21h
+     62
+     63
+     64					     end     start
+Turbo Assembler	 Version 2.0	    10/25/15 23:21:04	    Page 3
 Symbol Table
 
 
@@ -59,9 +80,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "10/23/15"
+??DATE				  Text	 "10/25/15"
 ??FILENAME			  Text	 "task1	  "
-??TIME				  Text	 "07:13:20"
+??TIME				  Text	 "23:21:04"
 ??VERSION			  Number 0200
 @CODE				  Text	 _TEXT
 @CODESIZE			  Text	 0
@@ -72,16 +93,20 @@ Symbol Name			  Type	 Value
 @FILENAME			  Text	 TASK1
 @MODEL				  Text	 2
 @WORDSIZE			  Text	 2
+NEWLINE				  Byte	 DGROUP:0006
 PRINTD				  Near	 _TEXT:0000
-START				  Near	 _TEXT:0012
+RESULT				  Byte	 DGROUP:0000
+START				  Near	 _TEXT:003D
+TOASC				  Near	 _TEXT:0012
 _LBL1				  Near	 _TEXT:000E
-_LBL2				  Near	 _TEXT:0021
-_LBL3				  Near	 _TEXT:002C
+_LBL2				  Near	 _TEXT:0019
+_LBL3				  Near	 _TEXT:0027
+_LBL4				  Near	 _TEXT:0034
 
 Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   STACK				  16  0100 Para	  Stack	  STACK
-  _DATA				  16  0000 Word	  Public  DATA
-_TEXT				  16  0043 Word	  Public  CODE
+  _DATA				  16  0009 Word	  Public  DATA
+_TEXT				  16  0059 Word	  Public  CODE
 
