@@ -1,121 +1,107 @@
-Turbo Assembler	 Version 2.0	    10/26/15 00:56:23	    Page 1
-src\lab4\task.asm
+Turbo Assembler	 Version 2.0	    10/26/15 22:51:26	    Page 1
+src\lab5\task.asm
 
 
 
-      1	    0000					 .model	 small
-      2	    0000					 .stack	 100h
-      3							 .186
-      4							 .386
-      5	    0000					 .data
-      6	    0000  14*(????)					 arr1	 dw 20 dup(?)		 ; массив	чисел
-      7	    0028  20 20	20 20 20 24				 result	 db '	  $'		 ; формат	вывода
-      8	    002E  000A 000D 0024				 nl	 dw 0Ah, 0Dh, '$'	 ; новая строка
-      9	    0034					 .code
-     10
-     11					 ;==============================================================================
-     12					 ; Процедура преобразования числа в			    +
-     13					 форматированную	строку
-     14					 ;==============================================================================
-     15	    0000			 toasc		 proc
-     16							 ; Сохраняем значения регистров
-     17	    0000  60					 pusha
-     18
-     19							 ; Выделяем цифры из числа и помещаем в	    +
-     20					 стек
-     21	    0001  33 C9					 xor	 cx, cx
-     22	    0003  BB 000A				 mov	 bx, 10
-     23	    0006  33 D2					 xor	 dx, dx
-     24	    0008  F7 F3			  _lbl2:	 div	 bx
-     25	    000A  52					 push	 dx
-     26	    000B  33 D2					 xor	 dx, dx
-     27	    000D  41					 inc	 cx
-     28	    000E  3D 0000				 cmp	 ax, 00h
-     29	    0011  75 F5					 jne	 _lbl2
-     30
-     31							 ; Преобразуем цифры числа	в ascii код
-     32							 ; и помещаем в результат
-     33	    0013  8B D9					 mov	 bx, cx
-     34	    0015  BE 0005				 mov	 si, 5
-     35	    0018  2B F1					 sub	 si, cx
-     36	    001A  5A			 _lbl3:		 pop	 dx
-     37	    001B  50					 push	 ax
-     38	    001C  80 C2	30				 add	 dl, 48
-     39	    001F  80 FA	39				 cmp	 dl, 39h
-     40	    0022  7E 05	90 90				 jle	 _lbl4
-     41	    0026  80 C2	07				 add	 dl, 07
-     42	    0029  88 94	0028r		 _lbl4:		 mov	 result[si], dl
-     43	    002D  46					 inc	 si
-     44	    002E  58					 pop	 ax
-     45	    002F  E2 E9					 loop	 _lbl3
-     46
-     47							 ; Заполняем пробелами незначащие символы
-     48	    0031  B9 0005				 mov	 cx, 5
-     49	    0034  2B CB					 sub	 cx, bx
-     50	    0036  BE 0000				 mov	 si, 0
-     51	    0039  C6 84	0028r 20	  _null:	 mov	 result[si], ' '
-     52	    003E  46					 inc	 si
-     53	    003F  E2 F8					 loop	 _null
-     54
-     55							 ; Восстанавливаем значения регистров
-     56	    0041  61					 popa
-     57
-Turbo Assembler	 Version 2.0	    10/26/15 00:56:23	    Page 2
-src\lab4\task.asm
+      1	0000					     .model small
+      2	0000					     .stack 100h
+      3						     .186
+      4	0000					     .data
+      5	0000  1E					     row	     db	30
+      6	0001  14					     col	     db	20
+      7	0002  0A					     color	     db	00001010b
+      8	0003  ??					     mode	     db	?
+      9	0004  43					     char	     db	'C'
+     10	0005					     .code
+     11
+     12				     ; Получение/установка видеорежима
+     13	0000			     b10mode	     proc
+     14	0000  60				     pusha
+     15	0001  B4 0F				     mov     ah, 0Fh
+     16	0003  CD 10				     int     10h
+     17	0005  A2 0003r				     mov     mode, al
+     18	0008  B8 0003				     mov     ax, 0003h
+     19	000B  CD 10				     int     10h
+     20	000D  61				     popa
+     21	000E  C3				     ret
+     22	000F			     b10mode	     endp
+     23
+     24				     ; Очистка экрана
+     25	000F			     c10clear	     proc
+     26	000F  60				     pusha
+     27	0010  B8 0600				     mov     ax, 0600h
+     28	0013  B7 07				     mov     bh, 07
+     29	0015  B9 0000				     mov     cx, 0000  ;от 00:00 до
+     30	0018  BA 184F				     mov     dx, 184fh ;24:79 (весь	экран)
+     31	001B  CD 10				     int     10h       ;Вызвать обработчик прерывания
+     32	001D  61				     popa
+     33	001E  C3				     ret
+     34	001F			     c10clear	     endp
+     35
+     36				     ; Установка курсора
+     37	001F			     d10cursor	     proc
+     38	001F  B4 02				     mov     ah, 02
+     39	0021  B7 00				     mov     bh, 00
+     40	0023  8A 36 0001r			     mov     dh, col
+     41	0027  8A 16 0000r			     mov     dl, row
+     42	002B  CD 10				     int     10h
+     43	002D  C3				     ret
+     44	002E			     d10cursor	     endp
+     45
+     46				     ; Вывод символа на экран
+     47	002E			     e10display	     proc
+     48	002E  60				     pusha
+     49	002F  B4 09				     mov     ah, 09h	     ;запросить вывод (в	текстовом  +
+     50				     режиме)
+     51	0031  A0 0004r				     mov     al, char	     ;выводимый символ
+     52	0034  B7 00				     mov     bh, 00	     ;страница 0
+     53	0036  8A 1E 0002r			     mov     bl, color	     ;синий фон, коричневые символы
+     54	003A  B9 0009				     mov     cx, 9	     ;число выводимых символов
+     55	003D  CD 10				     int     10h	     ;вызвать обработчик		    +
+     56				     прерывания
+     57	003F  61				     popa
+Turbo Assembler	 Version 2.0	    10/26/15 22:51:26	    Page 2
+src\lab5\task.asm
 
 
 
-     58	    0042  C3					 ret
-     59	    0043			 toasc		 endp
-     60					 ;==============================================================================
-     61					 ; НАЧАЛО	ПРОГРАММЫ
-     62					 ;==============================================================================
-     63	    0043  B8 0000s		 start:		 mov	 ax, @data
-     64	    0046  8E D8					 mov	 ds, ax
-     65
-     66							 ; Формирование массива
-     67	    0048  B9 000A				 mov	 cx, 10
-     68	    004B  BB 0003				 mov	 bx, 3
-     69	    004E  BE 0000				 mov	 si, 0
-     70	    0051  89 9C	0000r		 _fill_arr1:	 mov	 arr1[si], bx
-     71	    0055  33 C0					 xor	 ax, ax
-     72	    0057  8B 84	0000r				 mov	 ax, arr1[si]
-     73	    005B  F7 E0					 mul	 ax
-     74	    005D  89 84	0014r				 mov	 arr1[si+20], ax
-     75	    0061  80 C3	03				 add	 bl, 3
-     76	    0064  83 C6	02				 add	 si, 2
-     77	    0067  E2 E8					 loop	 _fill_arr1
-     78
+     58	0040  C3				     ret
+     59	0041			     e10display	     endp
+     60
+     61				     ; Начало программы
+     62	0041  B8 0000s		     start:	     mov     ax, @data
+     63	0044  8E D8				     mov     ds, ax
+     64
+     65	0046  B8 B900				     mov     ax,0b900h
+     66	0049  8E C0				     mov     es,ax
+     67
+     68	004B  E8 FFB2				     call    b10mode
+     69	004E  E8 FFBE				     call    c10clear
+     70
+     71	0051  B9 0005				     mov     cx, 5
+     72	0054  E8 FFC8		     _loop:	     call    d10cursor
+     73	0057  E8 FFD4				     call    e10display
+     74
+     75	005A  FE 06 0001r			     inc     col
+     76	005E  FE 06 0004r			     inc     char
+     77	0062  FE 06 0002r			     inc     color
+     78	0066  E2 EC				     loop    _loop
      79
-     80	    0069  B4 09					 mov	 ah, 09h
-     81	    006B  BA 002Er				 mov	 dx, offset nl
-     82	    006E  CD 21					 int	 21h
+     80
+     81	0068  B4 01				     mov     ah, 01h
+     82	006A  CD 21				     int     21h
      83
-     84	    0070  B9 0014				 mov	 cx, 20
-     85	    0073  BE 0000				 mov	 si, 0
-     86	    0076  8B 84	0000r		 _loop1:	 mov	 ax, arr1[si]
-     87	    007A  E8 FF83				 call	 toasc
-     88	    007D  B4 09					 mov	 ah, 09h
-     89	    007F  83 F9	0A				 cmp	 cx, 10
-     90	    0082  74 08	90 90				 je	 _nl
-     91	    0086  BA 0028r				 mov	 dx, offset result
-     92	    0089  EB 09	90				 jmp	 _print
-     93	    008C  BA 002Er		 _nl:		 mov	 dx, offset nl
-     94	    008F  CD 21					 int	 21h
-     95	    0091  BA 0028r				 mov	 dx, offset result
-     96	    0094  CD 21			 _print:	 int	 21h
-     97	    0096  83 C6	02				 add	 si, 2
-     98	    0099  E2 DB					 loop	 _loop1
-     99
-    100	    009B  B4 09					 mov	 ah, 09h
-    101	    009D  BA 002Er				 mov	 dx, offset nl
-    102	    00A0  CD 21					 int	 21h
-    103
-    104	    00A2  B8 4C00				 mov	 ax, 4c00h
-    105	    00A5  CD 21					 int	 21h
-    106
-    107							 end	 start
-Turbo Assembler	 Version 2.0	    10/26/15 00:56:23	    Page 3
+     84	006C  E8 FFA0				     call    c10clear
+     85
+     86	006F  B4 05				     mov     ah, 05h
+     87	0071  B0 01				     mov     al, 01h
+     88	0073  CD 10				     int     10h
+     89
+     90	0075  B8 4C00				     mov     ax, 4c00h
+     91	0078  CD 21				     int     21h
+     92
+     93						     end     start
+Turbo Assembler	 Version 2.0	    10/26/15 22:51:26	    Page 3
 Symbol Table
 
 
@@ -125,35 +111,33 @@ Symbol Name			  Type	 Value
 
 ??DATE				  Text	 "10/26/15"
 ??FILENAME			  Text	 "task	  "
-??TIME				  Text	 "00:56:23"
+??TIME				  Text	 "22:51:26"
 ??VERSION			  Number 0200
 @CODE				  Text	 _TEXT
 @CODESIZE			  Text	 0
-@CPU				  Text	 0D0FH
+@CPU				  Text	 0103H
 @CURSEG				  Text	 _TEXT
 @DATA				  Text	 DGROUP
 @DATASIZE			  Text	 0
 @FILENAME			  Text	 TASK
 @MODEL				  Text	 2
 @WORDSIZE			  Text	 2
-ARR1				  Word	 DGROUP:0000
-NL				  Word	 DGROUP:002E
-RESULT				  Byte	 DGROUP:0028
-START				  Near	 _TEXT:0043
-TOASC				  Near	 _TEXT:0000
-_FILL_ARR1			  Near	 _TEXT:0051
-_LBL2				  Near	 _TEXT:0008
-_LBL3				  Near	 _TEXT:001A
-_LBL4				  Near	 _TEXT:0029
-_LOOP1				  Near	 _TEXT:0076
-_NL				  Near	 _TEXT:008C
-_NULL				  Near	 _TEXT:0039
-_PRINT				  Near	 _TEXT:0094
+B10MODE				  Near	 _TEXT:0000
+C10CLEAR			  Near	 _TEXT:000F
+CHAR				  Byte	 DGROUP:0004
+COL				  Byte	 DGROUP:0001
+COLOR				  Byte	 DGROUP:0002
+D10CURSOR			  Near	 _TEXT:001F
+E10DISPLAY			  Near	 _TEXT:002E
+MODE				  Byte	 DGROUP:0003
+ROW				  Byte	 DGROUP:0000
+START				  Near	 _TEXT:0041
+_LOOP				  Near	 _TEXT:0054
 
 Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   STACK				  16  0100 Para	  Stack	  STACK
-  _DATA				  16  0034 Word	  Public  DATA
-_TEXT				  16  00A7 Word	  Public  CODE
+  _DATA				  16  0005 Word	  Public  DATA
+_TEXT				  16  007A Word	  Public  CODE
 
