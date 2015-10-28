@@ -2,11 +2,11 @@
 		.stack 100h
 		.186
 		.data
-			row		db 30
-			col		db 20
-			color		db 00001010b
-			mode 		db ?
-			char 		db 'C'
+			row	db 30
+			col	db 20
+			color	db 00001010b
+			mode 	db ?
+			char 	db 'C'
 		.code
 
 ; Получение/установка видеорежима

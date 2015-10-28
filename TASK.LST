@@ -1,5 +1,5 @@
-Turbo Assembler	 Version 2.0	    10/26/15 22:51:26	    Page 1
-src\lab5\task.asm
+Turbo Assembler	 Version 2.0	    10/28/15 20:43:44	    Page 1
+src\acs\task.asm
 
 
 
@@ -7,11 +7,11 @@ src\lab5\task.asm
       2	0000					     .stack 100h
       3						     .186
       4	0000					     .data
-      5	0000  1E					     row	     db	30
-      6	0001  14					     col	     db	20
-      7	0002  0A					     color	     db	00001010b
-      8	0003  ??					     mode	     db	?
-      9	0004  43					     char	     db	'C'
+      5	0000  1E					     row     db	30
+      6	0001  14					     col     db	20
+      7	0002  0A					     color   db	00001010b
+      8	0003  ??					     mode    db	?
+      9	0004  43					     char    db	'C'
      10	0005					     .code
      11
      12				     ; Получение/установка видеорежима
@@ -60,8 +60,8 @@ src\lab5\task.asm
      55	003D  CD 10				     int     10h	     ;вызвать обработчик		    +
      56				     прерывания
      57	003F  61				     popa
-Turbo Assembler	 Version 2.0	    10/26/15 22:51:26	    Page 2
-src\lab5\task.asm
+Turbo Assembler	 Version 2.0	    10/28/15 20:43:44	    Page 2
+src\acs\task.asm
 
 
 
@@ -72,8 +72,8 @@ src\lab5\task.asm
      62	0041  B8 0000s		     start:	     mov     ax, @data
      63	0044  8E D8				     mov     ds, ax
      64
-     65	0046  B8 B900				     mov     ax,0b900h
-     66	0049  8E C0				     mov     es,ax
+     65	0046  B8 B900				     mov     ax, 0b900h
+     66	0049  8E C0				     mov     es, ax
      67
      68	004B  E8 FFB2				     call    b10mode
      69	004E  E8 FFBE				     call    c10clear
@@ -101,7 +101,7 @@ src\lab5\task.asm
      91	0078  CD 21				     int     21h
      92
      93						     end     start
-Turbo Assembler	 Version 2.0	    10/26/15 22:51:26	    Page 3
+Turbo Assembler	 Version 2.0	    10/28/15 20:43:44	    Page 3
 Symbol Table
 
 
@@ -109,9 +109,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "10/26/15"
+??DATE				  Text	 "10/28/15"
 ??FILENAME			  Text	 "task	  "
-??TIME				  Text	 "22:51:26"
+??TIME				  Text	 "20:43:44"
 ??VERSION			  Number 0200
 @CODE				  Text	 _TEXT
 @CODESIZE			  Text	 0
