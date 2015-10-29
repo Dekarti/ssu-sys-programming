@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 2.0	    10/28/15 23:34:20	    Page 1
+Turbo Assembler	 Version 2.0	    10/29/15 17:14:44	    Page 1
 src\acs\task1.asm
 
 
@@ -60,7 +60,7 @@ src\acs\task1.asm
      55		  2E 20	2E 20 2E 20 2E+
      56		  20 24
      57	    0237  52 65	73 65 72 76 65+		 rsrvd1		 db "Reserved .	. . . .	. . . .	. . . .	. . . .	$" ; ............x...
-Turbo Assembler	 Version 2.0	    10/28/15 23:34:20	    Page 2
+Turbo Assembler	 Version 2.0	    10/29/15 17:14:44	    Page 2
 src\acs\task1.asm
 
 
@@ -101,114 +101,114 @@ src\acs\task1.asm
      91		  2E 20	2E 20 2E 20 2E+
      92		  20 24
      93
-     94	    0313  0103r				 msgs		 dw offset msg_printers
-     95	    0315  012Fr						 dw offset msg_modem
-     96	    0317  015Br						 dw offset msg_gameadpt
-     97	    0319  0187r						 dw offset msg_ports
-     98	    031B  01B3r						 dw offset rsrvd2
+     94	    0313  02BBr				 msgs		 dw offset msg_fdisk
+     95	    0315  028Fr						 dw offset msg_soprocc
+     96	    0317  0263r						 dw offset rsrvd0
+     97	    0319  0237r						 dw offset rsrvd1
+     98	    031B  020Br						 dw offset msg_vmode
      99	    031D  01DFr						 dw offset msg_diskettes
-    100	    031F  020Br						 dw offset msg_vmode
-    101	    0321  0237r						 dw offset rsrvd1
-    102	    0323  0263r						 dw offset rsrvd0
-    103	    0325  028Fr						 dw offset msg_soprocc
-    104	    0327  02BBr						 dw offset msg_fdisk
+    100	    031F  01B3r						 dw offset rsrvd2
+    101	    0321  0187r						 dw offset msg_ports
+    102	    0323  015Br						 dw offset msg_gameadpt
+    103	    0325  012Fr						 dw offset msg_modem
+    104	    0327  0103r						 dw offset msg_printers
     105
-    106	    0329  01 01	01 01 02 02 01+		 bits		 db 1, 1, 1, 1,	2, 2, 1, 3, 1, 1, 2
-    107		  03 01	01 02
-    108	    0334  0A 0D	24			 nl		 db 0Ah, 0Dh, '$'
-    109
-    110	    0337			 _start:
-    111	    0337  CD 11				 int	 11h
-    112						 ;mov ax, 1100100000100011b
-    113
-    114	    0339  8B 36	0313r			 mov	 si, msgs
-Turbo Assembler	 Version 2.0	    10/28/15 23:34:20	    Page 3
+    106
+    107	    0329  02 01	01 03 01 02 02+		 bits		 db 2, 1, 1, 3,	1, 2, 2, 1, 1, 1, 1
+    108		  01 01	01 01
+    109	    0334  0A 0D	24			 nl		 db 0Ah, 0Dh, '$'
+    110
+    111	    0337			 _start:
+    112	    0337  CD 11				 int	 11h
+    113						 ;mov ax, 1100100000100011b
+    114
+Turbo Assembler	 Version 2.0	    10/29/15 17:14:44	    Page 3
 src\acs\task1.asm
 
 
 
-    115	    033D  BF 0000			 mov	 di, 0
-    116	    0340  B9 000B			 mov	 cx, 11
-    117	    0343  51			 _lbl1:	 push	 cx
-    118	    0344  8A 8D	0329r			 mov	 cl, bits[di]
-    119	    0348  0F A5	C3			 shld	 bx, ax, cl
-    120	    034B  47				 inc	 di
-    121	    034C  59				 pop	 cx
-    122	    034D  83 C3	30			 add	 bx, 30h
-    123	    0350  53				 push	 bx
-    124	    0351  33 DB				 xor	 bx, bx
-    125	    0353  E2 EE				 loop	 _lbl1
-    126
-    127	    0355  B9 000B			 mov	 cx, 11
-    128	    0358  BE 0000			 mov	 si, 0
-    129	    035B  B4 09				 mov	 ah, 09h
-    130	    035D  BA 0334r			 mov	 dx, offset nl
-    131	    0360  CD 21				 int	 21h
-    132	    0362  B4 09			 _lbl2:	 mov	 ah, 09h
-    133	    0364  8B 94	0313r			 mov	 dx, msgs[si]
-    134	    0368  83 C6	02			 add	 si, 2
-    135	    036B  CD 21				 int	 21h
-    136	    036D  B4 02				 mov	 ah, 02h
-    137	    036F  5A				 pop	 dx
-    138	    0370  CD 21				 int	 21h
-    139	    0372  B4 09				 mov	 ah, 09h
-    140	    0374  BA 0334r			 mov	 dx, offset nl
-    141	    0377  CD 21				 int	 21h
-    142	    0379  E2 E7				 loop	 _lbl2
-    143
-    144	    037B  B4 09				 mov	 ah, 09h
-    145	    037D  BA 02E7r			 lea	 dx, msg_mem
-    146	    0380  CD 21				 int	 21h
-    147	    0382  CD 12				 int	 12h
-    148	    0384  BB 000A			 mov	 bx, 10
-    149	    0387  E8 0015			 call	 printax
-    150	    038A  B4 09				 mov	 ah, 09h
-    151	    038C  BA 0334r			 lea	 dx, nl
-    152	    038F  CD 21				 int	 21h
-    153
-    154	    0391			 toasc proc
-    155	    0391  80 C2	30			 add	 dl, 30h
-    156	    0394  80 FA	39			 cmp	 dl, 39h
-    157	    0397  7E 05	90 90			 jle	 _d2a
-    158	    039B  80 C2	07			 add	 dl, 07h
-    159	    039E  C3			 _d2a:	 ret
-    160	    039F			 toasc endp
-    161
-    162					 ; Вывод символа из dl
-    163	    039F			 printax proc
-    164	    039F  60				 pusha
-    165	    03A0  33 C9				 xor	 cx, cx
-    166
-    167	    03A2  3D 0000			 cmp	 ax, 0
-    168	    03A5  75 05	90 90			 jne	 _lbl3
-    169	    03A9  6A 30				 push	 "0"
-    170	    03AB  41				 inc	 cx
-    171
-Turbo Assembler	 Version 2.0	    10/28/15 23:34:20	    Page 4
+    115	    0339  33 F6				 xor	 si, si
+    116	    033B  B9 000B			 mov	 cx, 11
+    117	    033E  51			 _lbl1:	 push	 cx
+    118	    033F  8A 8C	0329r			 mov	 cl, bits[si]
+    119	    0343  0F A5	C3			 shld	 bx, ax, cl
+    120	    0346  D3 E0				 shl	 ax, cl
+    121	    0348  46				 inc	 si
+    122	    0349  59				 pop	 cx
+    123	    034A  83 C3	30			 add	 bx, 30h
+    124	    034D  53				 push	 bx
+    125	    034E  33 DB				 xor	 bx, bx
+    126	    0350  E2 EC				 loop	 _lbl1
+    127
+    128	    0352  B9 000B			 mov	 cx, 11
+    129	    0355  BE 0000			 mov	 si, 0
+    130	    0358  B4 09				 mov	 ah, 09h
+    131	    035A  BA 0334r			 mov	 dx, offset nl
+    132	    035D  CD 21				 int	 21h
+    133	    035F  B4 09			 _lbl2:	 mov	 ah, 09h
+    134	    0361  8B 94	0313r			 mov	 dx, msgs[si]
+    135	    0365  83 C6	02			 add	 si, 2
+    136	    0368  CD 21				 int	 21h
+    137	    036A  B4 02				 mov	 ah, 02h
+    138	    036C  5A				 pop	 dx
+    139	    036D  CD 21				 int	 21h
+    140	    036F  B4 09				 mov	 ah, 09h
+    141	    0371  BA 0334r			 mov	 dx, offset nl
+    142	    0374  CD 21				 int	 21h
+    143	    0376  E2 E7				 loop	 _lbl2
+    144
+    145	    0378  B4 09				 mov	 ah, 09h
+    146	    037A  BA 02E7r			 lea	 dx, msg_mem
+    147	    037D  CD 21				 int	 21h
+    148	    037F  CD 12				 int	 12h
+    149	    0381  BB 000A			 mov	 bx, 10
+    150	    0384  E8 0015			 call	 printax
+    151	    0387  B4 09				 mov	 ah, 09h
+    152	    0389  BA 0334r			 lea	 dx, nl
+    153	    038C  CD 21				 int	 21h
+    154
+    155	    038E			 toasc proc
+    156	    038E  80 C2	30			 add	 dl, 30h
+    157	    0391  80 FA	39			 cmp	 dl, 39h
+    158	    0394  7E 05	90 90			 jle	 _d2a
+    159	    0398  80 C2	07			 add	 dl, 07h
+    160	    039B  C3			 _d2a:	 ret
+    161	    039C			 toasc endp
+    162
+    163					 ; Вывод символа из dl
+    164	    039C			 printax proc
+    165	    039C  60				 pusha
+    166	    039D  33 C9				 xor	 cx, cx
+    167
+    168	    039F  3D 0000			 cmp	 ax, 0
+    169	    03A2  75 05	90 90			 jne	 _lbl3
+    170	    03A6  6A 30				 push	 "0"
+    171	    03A8  41				 inc	 cx
+Turbo Assembler	 Version 2.0	    10/29/15 17:14:44	    Page 4
 src\acs\task1.asm
 
 
 
-    172	    03AC  3D 0000		 _lbl3:	 cmp	 ax, 0
-    173	    03AF  74 0D	90 90			 je	 _lbl4
-    174	    03B3  33 D2				 xor	 dx, dx
-    175	    03B5  F7 F3				 div	 bx
-    176	    03B7  E8 FFD7			 call	 toasc
-    177	    03BA  52				 push	 dx
-    178	    03BB  41				 inc	 cx
-    179	    03BC  EB EE				 jmp	 _lbl3
-    180	    03BE  B4 02			 _lbl4:	 mov	 ah, 02h
-    181
-    182	    03C0  5A			 _lbl5:	 pop	 dx
-    183	    03C1  CD 21				 int	 21h
-    184	    03C3  E2 FB				 loop	 _lbl5
-    185
-    186	    03C5  61				 popa
-    187	    03C6  C3				 ret
-    188	    03C7			 printax endp
-    189
+    172
+    173	    03A9  3D 0000		 _lbl3:	 cmp	 ax, 0
+    174	    03AC  74 0D	90 90			 je	 _lbl4
+    175	    03B0  33 D2				 xor	 dx, dx
+    176	    03B2  F7 F3				 div	 bx
+    177	    03B4  E8 FFD7			 call	 toasc
+    178	    03B7  52				 push	 dx
+    179	    03B8  41				 inc	 cx
+    180	    03B9  EB EE				 jmp	 _lbl3
+    181	    03BB  B4 02			 _lbl4:	 mov	 ah, 02h
+    182
+    183	    03BD  5A			 _lbl5:	 pop	 dx
+    184	    03BE  CD 21				 int	 21h
+    185	    03C0  E2 FB				 loop	 _lbl5
+    186
+    187	    03C2  61				 popa
+    188	    03C3  C3				 ret
+    189	    03C4			 printax endp
     190						 end	 _beg
-Turbo Assembler	 Version 2.0	    10/28/15 23:34:20	    Page 5
+Turbo Assembler	 Version 2.0	    10/29/15 17:14:44	    Page 5
 Symbol Table
 
 
@@ -216,9 +216,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "10/28/15"
+??DATE				  Text	 "10/29/15"
 ??FILENAME			  Text	 "task1	  "
-??TIME				  Text	 "23:34:19"
+??TIME				  Text	 "17:14:44"
 ??VERSION			  Number 0200
 @CODE				  Text	 DGROUP
 @CODESIZE			  Text	 0
@@ -241,23 +241,23 @@ MSG_PRINTERS			  Byte	 DGROUP:0103
 MSG_SOPROCC			  Byte	 DGROUP:028F
 MSG_VMODE			  Byte	 DGROUP:020B
 NL				  Byte	 DGROUP:0334
-PRINTAX				  Near	 DGROUP:039F
+PRINTAX				  Near	 DGROUP:039C
 RSRVD0				  Byte	 DGROUP:0263
 RSRVD1				  Byte	 DGROUP:0237
 RSRVD2				  Byte	 DGROUP:01B3
-TOASC				  Near	 DGROUP:0391
+TOASC				  Near	 DGROUP:038E
 _BEG				  Near	 DGROUP:0100
-_D2A				  Near	 DGROUP:039E
-_LBL1				  Near	 DGROUP:0343
-_LBL2				  Near	 DGROUP:0362
-_LBL3				  Near	 DGROUP:03AC
-_LBL4				  Near	 DGROUP:03BE
-_LBL5				  Near	 DGROUP:03C0
+_D2A				  Near	 DGROUP:039B
+_LBL1				  Near	 DGROUP:033E
+_LBL2				  Near	 DGROUP:035F
+_LBL3				  Near	 DGROUP:03A9
+_LBL4				  Near	 DGROUP:03BB
+_LBL5				  Near	 DGROUP:03BD
 _START				  Near	 DGROUP:0337
 
 Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   _DATA				  16  0000 Word	  Public  DATA
-  _TEXT				  16  03C7 Word	  Public  CODE
+  _TEXT				  16  03C4 Word	  Public  CODE
 

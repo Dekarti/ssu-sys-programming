@@ -19,32 +19,33 @@ _beg:	jmp	_start							  ; 1100100000100011
 
 	msg_mem 	db "Memory size  . . . . . . . . . . . . . . . $"
  
-	msgs 		dw offset msg_printers	
-			dw offset msg_modem	
-			dw offset msg_gameadpt	
-			dw offset msg_ports	
-			dw offset rsrvd2		
-			dw offset msg_diskettes	
-			dw offset msg_vmode	
-			dw offset rsrvd1		
-			dw offset rsrvd0		
-			dw offset msg_soprocc	
-			dw offset msg_fdisk	
+	msgs 		dw offset msg_fdisk
+			dw offset msg_soprocc
+			dw offset rsrvd0
+			dw offset rsrvd1
+			dw offset msg_vmode
+			dw offset msg_diskettes
+			dw offset rsrvd2
+			dw offset msg_ports
+			dw offset msg_gameadpt
+			dw offset msg_modem
+			dw offset msg_printers
 
-	bits		db 1, 1, 1, 1, 2, 2, 1, 3, 1, 1, 2
+
+	bits		db 2, 1, 1, 3, 1, 2, 2, 1, 1, 1, 1
 	nl		db 0Ah, 0Dh, '$'
 
 _start:
 	int 	11h
 	;mov ax, 1100100000100011b
 
-	mov	si, msgs
-	mov	di, 0
+	xor	si, si
 	mov	cx, 11
 _lbl1: 	push	cx
-	mov	cl, bits[di]
+	mov	cl, bits[si]
 	shld	bx, ax, cl
-	inc	di
+	shl 	ax, cl
+	inc	si
 	pop	cx
 	add	bx, 30h
 	push	bx
@@ -113,7 +114,6 @@ _lbl5:  pop     dx
 	popa
         ret
 printax endp
-
 	end	_beg
 
 
