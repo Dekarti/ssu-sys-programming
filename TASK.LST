@@ -1,5 +1,5 @@
-Turbo Assembler	 Version 2.0	    10/28/15 20:43:44	    Page 1
-src\acs\task.asm
+Turbo Assembler	 Version 2.0	    10/30/15 06:56:26	    Page 1
+src\lab5\task.asm
 
 
 
@@ -55,13 +55,13 @@ src\acs\task.asm
      50				     режиме)
      51	0031  A0 0004r				     mov     al, char	     ;выводимый символ
      52	0034  B7 00				     mov     bh, 00	     ;страница 0
-     53	0036  8A 1E 0002r			     mov     bl, color	     ;синий фон, коричневые символы
-     54	003A  B9 0009				     mov     cx, 9	     ;число выводимых символов
+     53	0036  8A 1E 0002r			     mov     bl, color
+     54	003A  B9 0008				     mov     cx, 8	     ;число выводимых символов
      55	003D  CD 10				     int     10h	     ;вызвать обработчик		    +
      56				     прерывания
      57	003F  61				     popa
-Turbo Assembler	 Version 2.0	    10/28/15 20:43:44	    Page 2
-src\acs\task.asm
+Turbo Assembler	 Version 2.0	    10/30/15 06:56:26	    Page 2
+src\lab5\task.asm
 
 
 
@@ -101,7 +101,7 @@ src\acs\task.asm
      91	0078  CD 21				     int     21h
      92
      93						     end     start
-Turbo Assembler	 Version 2.0	    10/28/15 20:43:44	    Page 3
+Turbo Assembler	 Version 2.0	    10/30/15 06:56:26	    Page 3
 Symbol Table
 
 
@@ -109,9 +109,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "10/28/15"
+??DATE				  Text	 "10/30/15"
 ??FILENAME			  Text	 "task	  "
-??TIME				  Text	 "20:43:44"
+??TIME				  Text	 "06:56:26"
 ??VERSION			  Number 0200
 @CODE				  Text	 _TEXT
 @CODESIZE			  Text	 0
