@@ -11,10 +11,7 @@ beg:	jmp	start
 	nl		db 0Ah, 0Dh, '$'					 
 									 
 
-start:	mov	ax, @data 
-	mov	ds, ax
-
-lbl1:	lea dx, curr_date_msg
+start:	lea 	dx, curr_date_msg
 	mov	ah, 09
 	int 	21h
 
@@ -78,7 +75,7 @@ lbl1:	lea dx, curr_date_msg
 
 	mov	ah, 03h
 	int	1ah
-	jmp	lbl1
+	jmp	start
 
 	mov	ax, 4c00h
 	int	21h
