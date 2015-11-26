@@ -1,0 +1,126 @@
+Turbo Assembler	 Version 2.0	    11/18/15 12:25:32	    Page 1
+src\acs\task4.asm
+
+
+
+      1	    0000				 .model	small
+      2
+      3	    0000				 .stack	100h
+      4
+      5						 .386
+      6
+      7	    0000				 .data
+      8
+      9	    0000				 .code
+     10
+     11					 ; Печатает содержимое регистра AL
+     12	    0000			 prntchr proc	 near
+     13	    0000  51				 push	 cx
+     14
+     15	    0001  B9 0002			 mov	 cx, 2
+     16	    0004  8A F8				 mov	 bh, al
+     17
+     18						 ; В цикле из двух итераций	выводим
+     19						 ; сначала старший разряд числа, потом - младший
+     20
+     21	    0006  C0 E8	04			 shr	 al, 04
+     22
+     23	    0009			 _m1:	 ; Перевод в ASCII код
+     24	    0009  04 30				 add	 al, 30h
+     25	    000B  3C 39				 cmp	 al, 39h
+     26	    000D  7E 04	90 90			 jle	 _l1
+     27	    0011  04 07				 add	 al, 07h
+     28
+     29	    0013  26: 89 04		 _l1:	 mov	 es:[si], ax
+     30	    0016  8A C7				 mov	 al, bh
+     31	    0018  24 0F				 and	 al, 00001111b
+     32	    001A  83 C6	02			 add	 si, 2
+     33	    001D  E2 EA				 loop	 _m1
+     34
+     35	    001F  83 C7	01			 add	 di, 01h
+     36
+     37	    0022  59				 pop	 cx
+     38	    0023  C3				 ret
+     39	    0024			 prntchr endp
+     40
+     41					 ; Очищает экран
+     42	    0024			 clrscr	 proc	 near
+     43	    0024  66| 60			 pushad
+     44	    0026  B4 06				 mov	 ah, 06h
+     45	    0028  B7 07				 mov	 bh, 07h
+     46	    002A  B9 0000			 mov	 cx, 0
+     47	    002D  BA 184F			 mov	 dx, 184Fh
+     48	    0030  CD 10				 int	 10h
+     49	    0032  66| 61			 popad
+     50	    0034  C3				 ret
+     51	    0035			 clrscr	 endp
+     52
+     53	    0035			 _start:
+     54	    0035  B8 0000s			 mov	 ax, @data
+     55	    0038  8E D8				 mov	 ds, ax
+     56
+     57	    003A  B8 B800			 mov	 ax, 0B800h
+Turbo Assembler	 Version 2.0	    11/18/15 12:25:32	    Page 2
+src\acs\task4.asm
+
+
+
+     58	    003D  8E C0				 mov	 es, ax
+     59	    003F  BE 0000			 mov	 si, 0
+     60	    0042  BF 0000			 mov	 di, 0
+     61	    0045  B4 07				 mov	 ah, 07h
+     62
+     63						 ; Получение размера программы
+     64	    0047  B9 0063r			 mov	 cx, offset _end
+     65	    004A  81 E9	0035r			 sub	 cx, offset _start
+     66
+     67	    004E  E8 FFD3			 call	 clrscr
+     68
+     69	    0051  2E: 8A 05		 _loop:	 mov	 al, cs:[di]
+     70	    0054  E8 FFA9			 call	 prntchr
+     71	    0057  E2 F8				 loop	 _loop
+     72
+     73	    0059  B4 01				 mov	 ah, 01h	 ; ожидание нажатия любой клавиши,
+     74	    005B  CD 21				 int	 21h		 ; после чего можно очищать
+     75	    005D  E8 FFC4			 call	 clrscr		 ; экран и выходить из программы
+     76
+     77	    0060  B8 4C00			 mov	 ax, 4C00h
+     78	    0063  CD 21			 _end:	 int	 21h
+     79
+     80						 end	 _start
+Turbo Assembler	 Version 2.0	    11/18/15 12:25:32	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/18/15"
+??FILENAME			  Text	 "task4	  "
+??TIME				  Text	 "12:25:32"
+??VERSION			  Number 0200
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0D0FH
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 TASK4
+@MODEL				  Text	 2
+@WORDSIZE			  Text	 2
+CLRSCR				  Near	 _TEXT:0024
+PRNTCHR				  Near	 _TEXT:0000
+_END				  Near	 _TEXT:0063
+_L1				  Near	 _TEXT:0013
+_LOOP				  Near	 _TEXT:0051
+_M1				  Near	 _TEXT:0009
+_START				  Near	 _TEXT:0035
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0065 Word	  Public  CODE
+

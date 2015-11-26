@@ -120,8 +120,3 @@ scan	proc
 scan	endp
 	
 	end	beg
-
-
-
-
-
