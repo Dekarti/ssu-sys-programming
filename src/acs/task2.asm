@@ -50,7 +50,7 @@ start:	lea 	dx, curr_date_msg
 	int 	21h
 	call	scan
 	xor	ax, ax
-	mov	ch, dl
+	push	dx
 	lea	dx, nl
 	mov	ah, 09h
 	int 	21h
@@ -58,6 +58,7 @@ start:	lea 	dx, curr_date_msg
 	lea 	dx, mins_set_msg
 	int 	21h
 	call	scan
+	push	dx
 	xor	ax, ax
 	mov	cl, dl
 	lea	dx, nl
@@ -67,12 +68,25 @@ start:	lea 	dx, curr_date_msg
 	lea 	dx, secs_set_msg
 	int 	21h
 	call	scan
+	push	dx
 	xor	ax, ax
 	mov	dh, dl
 	lea	dx, nl
 	mov	ah, 09h
 	int 	21h
 
+	xor	bx, bx
+	pop	bx
+	mov	dh, bl
+	xor	bx, bx
+	pop	bx
+	mov	cl, bl
+	xor	bx, bx
+	pop	bx
+	mov	ch, bl
+	
+	
+	
 	mov	ah, 03h
 	int	1ah
 	jmp	start
@@ -112,7 +126,7 @@ scan	proc
 	mov	dl, al
 	sub	dl, 30h
 	mov	cl, 04h
-	shl 	dl, cl
+	shl	dl, cl
 	int	21h
 	sub	al, 30h
 	add	dl, al
