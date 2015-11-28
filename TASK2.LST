@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 2.0	    11/13/15 08:40:33	    Page 1
+Turbo Assembler	 Version 2.0	    11/26/15 20:44:04	    Page 1
 src\acs\task2.asm
 
 
@@ -34,7 +34,7 @@ src\acs\task2.asm
      29
      30	    0151  33 C0				 xor	 ax, ax
      31	    0153  8A C5				 mov	 al, ch
-     32	    0155  E8 006C			 call	 printax
+     32	    0155  E8 007D			 call	 printax
      33	    0158  33 C0				 xor	 ax, ax
      34	    015A  BA 003A			 mov	 dx, ":"
      35	    015D  B4 02				 mov	 ah, 02h
@@ -42,7 +42,7 @@ src\acs\task2.asm
      37
      38	    0161  33 C0				 xor	 ax, ax
      39	    0163  8A C1				 mov	 al, cl
-     40	    0165  E8 005C			 call	 printax
+     40	    0165  E8 006D			 call	 printax
      41	    0168  BA 003A			 mov	 dx, ":"
      42	    016B  B4 02				 mov	 ah, 02h
      43	    016D  CD 21				 int	 21h
@@ -50,7 +50,7 @@ src\acs\task2.asm
      45	    016F  33 C0				 xor	 ax, ax
      46	    0171  5A				 pop	 dx
      47	    0172  8A C6				 mov	 al, dh
-     48	    0174  E8 004D			 call	 printax
+     48	    0174  E8 005E			 call	 printax
      49
      50	    0177  BA 013Fr			 lea	 dx, nl
      51	    017A  B4 09				 mov	 ah, 09
@@ -59,89 +59,103 @@ src\acs\task2.asm
      54
      55	    0180  BA 0111r			 lea	 dx, hours_set_msg
      56	    0183  CD 21				 int	 21h
-     57	    0185  E8 0058			 call	 scan
-Turbo Assembler	 Version 2.0	    11/13/15 08:40:33	    Page 2
+     57	    0185  E8 0069			 call	 scan
+Turbo Assembler	 Version 2.0	    11/26/15 20:44:04	    Page 2
 src\acs\task2.asm
 
 
 
      58	    0188  33 C0				 xor	 ax, ax
-     59	    018A  8A EA				 mov	 ch, dl
-     60	    018C  BA 013Fr			 lea	 dx, nl
-     61	    018F  B4 09				 mov	 ah, 09h
-     62	    0191  CD 21				 int	 21h
+     59	    018A  52				 push	 dx
+     60	    018B  BA 013Fr			 lea	 dx, nl
+     61	    018E  B4 09				 mov	 ah, 09h
+     62	    0190  CD 21				 int	 21h
      63
-     64	    0193  BA 011Fr			 lea	 dx, mins_set_msg
-     65	    0196  CD 21				 int	 21h
-     66	    0198  E8 0045			 call	 scan
-     67	    019B  33 C0				 xor	 ax, ax
-     68	    019D  8A CA				 mov	 cl, dl
-     69	    019F  BA 013Fr			 lea	 dx, nl
-     70	    01A2  B4 09				 mov	 ah, 09h
-     71	    01A4  CD 21				 int	 21h
-     72
-     73	    01A6  BA 012Fr			 lea	 dx, secs_set_msg
-     74	    01A9  CD 21				 int	 21h
-     75	    01AB  E8 0032			 call	 scan
-     76	    01AE  33 C0				 xor	 ax, ax
-     77	    01B0  8A F2				 mov	 dh, dl
-     78	    01B2  BA 013Fr			 lea	 dx, nl
-     79	    01B5  B4 09				 mov	 ah, 09h
-     80	    01B7  CD 21				 int	 21h
-     81
-     82	    01B9  B4 03				 mov	 ah, 03h
-     83	    01BB  CD 1A				 int	 1ah
-     84	    01BD  EB 83				 jmp	 start
-     85
-     86	    01BF  B8 4C00			 mov	 ax, 4c00h
-     87	    01C2  CD 21				 int	 21h
-     88
-     89					 ;Вывод символа из dl
-     90	    01C4			 printax proc
-     91	    01C4  60				 pusha
-     92
-     93	    01C5  33 D2				 xor	 dx, dx
-     94	    01C7  F7 F3				 div	 bx
-     95	    01C9  52				 push	 dx
-     96
-     97	    01CA  33 D2				 xor	 dx, dx
-     98	    01CC  F7 F3				 div	 bx
-     99	    01CE  52				 push	 dx
-    100
-    101	    01CF  33 C9				 xor	 cx, cx
-    102	    01D1  B9 0002			 mov	 cx, 2
-    103	    01D4  B4 02				 mov	 ah, 02h
-    104	    01D6  5A			 _lbl5:	 pop	 dx
-    105	    01D7  80 C2	30			 add	 dl, 30h
-    106	    01DA  CD 21				 int	 21h
-    107	    01DC  E2 F8				 loop	 _lbl5
-    108
-    109	    01DE  61				 popa
-    110	    01DF  C3				 ret
-    111
-    112	    01E0			 printax endp
-    113
-    114					 ; Считывание	числа в dl
-Turbo Assembler	 Version 2.0	    11/13/15 08:40:33	    Page 3
+     64	    0192  BA 011Fr			 lea	 dx, mins_set_msg
+     65	    0195  CD 21				 int	 21h
+     66	    0197  E8 0057			 call	 scan
+     67	    019A  52				 push	 dx
+     68	    019B  33 C0				 xor	 ax, ax
+     69	    019D  8A CA				 mov	 cl, dl
+     70	    019F  BA 013Fr			 lea	 dx, nl
+     71	    01A2  B4 09				 mov	 ah, 09h
+     72	    01A4  CD 21				 int	 21h
+     73
+     74	    01A6  BA 012Fr			 lea	 dx, secs_set_msg
+     75	    01A9  CD 21				 int	 21h
+     76	    01AB  E8 0043			 call	 scan
+     77	    01AE  52				 push	 dx
+     78	    01AF  33 C0				 xor	 ax, ax
+     79	    01B1  8A F2				 mov	 dh, dl
+     80	    01B3  BA 013Fr			 lea	 dx, nl
+     81	    01B6  B4 09				 mov	 ah, 09h
+     82	    01B8  CD 21				 int	 21h
+     83
+     84	    01BA  33 DB				 xor	 bx, bx
+     85	    01BC  5B				 pop	 bx
+     86	    01BD  8A F3				 mov	 dh, bl
+     87	    01BF  33 DB				 xor	 bx, bx
+     88	    01C1  5B				 pop	 bx
+     89	    01C2  8A CB				 mov	 cl, bl
+     90	    01C4  33 DB				 xor	 bx, bx
+     91	    01C6  5B				 pop	 bx
+     92	    01C7  8A EB				 mov	 ch, bl
+     93
+     94
+     95
+     96	    01C9  B4 03				 mov	 ah, 03h
+     97	    01CB  CD 1A				 int	 1ah
+     98	    01CD  E9 FF72			 jmp	 start
+     99
+    100	    01D0  B8 4C00			 mov	 ax, 4c00h
+    101	    01D3  CD 21				 int	 21h
+    102
+    103					 ;Вывод символа из dl
+    104	    01D5			 printax proc
+    105	    01D5  60				 pusha
+    106
+    107	    01D6  33 D2				 xor	 dx, dx
+    108	    01D8  F7 F3				 div	 bx
+    109	    01DA  52				 push	 dx
+    110
+    111	    01DB  33 D2				 xor	 dx, dx
+    112	    01DD  F7 F3				 div	 bx
+    113	    01DF  52				 push	 dx
+    114
+Turbo Assembler	 Version 2.0	    11/26/15 20:44:04	    Page 3
 src\acs\task2.asm
 
 
 
-    115	    01E0			 scan	 proc
-    116	    01E0  B4 01				 mov	 ah, 01h
-    117	    01E2  CD 21				 int	 21h
-    118	    01E4  8A D0				 mov	 dl, al
-    119	    01E6  80 EA	30			 sub	 dl, 30h
-    120	    01E9  B1 04				 mov	 cl, 04h
-    121	    01EB  D2 E2				 shl	 dl, cl
-    122	    01ED  CD 21				 int	 21h
-    123	    01EF  2C 30				 sub	 al, 30h
-    124	    01F1  02 D0				 add	 dl, al
-    125	    01F3  C3				 ret
-    126	    01F4			 scan	 endp
+    115	    01E0  33 C9				 xor	 cx, cx
+    116	    01E2  B9 0002			 mov	 cx, 2
+    117	    01E5  B4 02				 mov	 ah, 02h
+    118	    01E7  5A			 _lbl5:	 pop	 dx
+    119	    01E8  80 C2	30			 add	 dl, 30h
+    120	    01EB  CD 21				 int	 21h
+    121	    01ED  E2 F8				 loop	 _lbl5
+    122
+    123	    01EF  61				 popa
+    124	    01F0  C3				 ret
+    125
+    126	    01F1			 printax endp
     127
-    128						 end	 beg
-Turbo Assembler	 Version 2.0	    11/13/15 08:40:33	    Page 4
+    128					 ; Считывание	числа в dl
+    129	    01F1			 scan	 proc
+    130	    01F1  B4 01				 mov	 ah, 01h
+    131	    01F3  CD 21				 int	 21h
+    132	    01F5  8A D0				 mov	 dl, al
+    133	    01F7  80 EA	30			 sub	 dl, 30h
+    134	    01FA  B1 04				 mov	 cl, 04h
+    135	    01FC  D2 E2				 shl	 dl, cl
+    136	    01FE  CD 21				 int	 21h
+    137	    0200  2C 30				 sub	 al, 30h
+    138	    0202  02 D0				 add	 dl, al
+    139	    0204  C3				 ret
+    140	    0205			 scan	 endp
+    141
+    142						 end	 beg
+Turbo Assembler	 Version 2.0	    11/26/15 20:44:04	    Page 4
 Symbol Table
 
 
@@ -149,9 +163,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "11/13/15"
+??DATE				  Text	 "11/26/15"
 ??FILENAME			  Text	 "task2	  "
-??TIME				  Text	 "08:40:33"
+??TIME				  Text	 "20:44:04"
 ??VERSION			  Number 0200
 @CODE				  Text	 DGROUP
 @CODESIZE			  Text	 0
@@ -167,15 +181,15 @@ CURR_DATE_MSG			  Byte	 DGROUP:0103
 HOURS_SET_MSG			  Byte	 DGROUP:0111
 MINS_SET_MSG			  Byte	 DGROUP:011F
 NL				  Byte	 DGROUP:013F
-PRINTAX				  Near	 DGROUP:01C4
-SCAN				  Near	 DGROUP:01E0
+PRINTAX				  Near	 DGROUP:01D5
+SCAN				  Near	 DGROUP:01F1
 SECS_SET_MSG			  Byte	 DGROUP:012F
 START				  Near	 DGROUP:0142
-_LBL5				  Near	 DGROUP:01D6
+_LBL5				  Near	 DGROUP:01E7
 
 Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   _DATA				  16  0000 Word	  Public  DATA
-  _TEXT				  16  01F4 Word	  Public  CODE
+  _TEXT				  16  0205 Word	  Public  CODE
 

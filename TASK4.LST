@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 2.0	    11/18/15 12:25:32	    Page 1
+Turbo Assembler	 Version 2.0	    11/28/15 15:28:18	    Page 1
 src\acs\task4.asm
 
 
@@ -60,7 +60,7 @@ src\acs\task4.asm
      55	    0038  8E D8				 mov	 ds, ax
      56
      57	    003A  B8 B800			 mov	 ax, 0B800h
-Turbo Assembler	 Version 2.0	    11/18/15 12:25:32	    Page 2
+Turbo Assembler	 Version 2.0	    11/28/15 15:28:18	    Page 2
 src\acs\task4.asm
 
 
@@ -88,7 +88,7 @@ src\acs\task4.asm
      78	    0063  CD 21			 _end:	 int	 21h
      79
      80						 end	 _start
-Turbo Assembler	 Version 2.0	    11/18/15 12:25:32	    Page 3
+Turbo Assembler	 Version 2.0	    11/28/15 15:28:18	    Page 3
 Symbol Table
 
 
@@ -96,9 +96,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "11/18/15"
+??DATE				  Text	 "11/28/15"
 ??FILENAME			  Text	 "task4	  "
-??TIME				  Text	 "12:25:32"
+??TIME				  Text	 "15:28:18"
 ??VERSION			  Number 0200
 @CODE				  Text	 _TEXT
 @CODESIZE			  Text	 0

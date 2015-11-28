@@ -1,0 +1,135 @@
+Turbo Assembler	 Version 2.0	    11/28/15 19:12:14	    Page 1
+src\acs\lab9.asm
+
+
+
+      1	    0000				 .model	small
+      2	    0000				 .stack	100h
+      3						 .386
+      4	    0000				 .data
+      5	    0000				 .code
+      6
+      7	    0000			 asc	 proc
+      8	    0000  80 C2	30			 add	 dl, 30h
+      9	    0003  80 FA	39			 cmp	 dl, 39h
+     10	    0006  7E 05	90 90			 jle	 l1
+     11	    000A  80 C2	07			 add	 dl, 07h
+     12	    000D  C3			 l1:	 ret
+     13	    000E			 asc	 endp
+     14
+     15	    000E			 clrscr	 proc
+     16	    000E  60				 pusha
+     17	    000F  B4 05				 mov	 ah, 05
+     18	    0011  B0 00				 mov	 al, 0
+     19	    0013  CD 10				 int	 10h
+     20
+     21	    0015  B8 0600			 mov	 ax, 0600h
+     22	    0018  B7 07				 mov	 bh, 07
+     23	    001A  B9 0000			 mov	 cx, 0000
+     24	    001D  BA 184F			 mov	 dx, 184fh
+     25	    0020  CD 10				 int	 10h
+     26	    0022  61				 popa
+     27	    0023  C3				 ret
+     28	    0024			 clrscr	  endp
+     29
+     30	    0024			 retpg	 proc
+     31	    0024  60				 pusha
+     32	    0025  B8 0700			 mov	 ax, 0700h
+     33	    0028  B7 07				 mov	 bh, 07
+     34	    002A  B9 0000			 mov	 cx, 0000
+     35	    002D  BA 184F			 mov	 dx, 184fh
+     36	    0030  CD 10				 int	 10h
+     37	    0032  61				 popa
+     38	    0033  C3				 ret
+     39	    0034			 retpg	 endp
+     40
+     41	    0034  B8 0000s		 start:	 mov	 ax, @data
+     42	    0037  8E D8				 mov	 ds, ax
+     43
+     44	    0039  B8 B800			 mov	 ax, 0B800h
+     45	    003C  8E C0				 mov	 es, ax
+     46
+     47	    003E  B9 007Dr			 mov	 cx, offset endm
+     48	    0041  81 E9	0034r			 sub	 cx, offset start
+     49
+     50	    0045  E8 FFC6			 call	 clrscr
+     51
+     52	    0048  33 FF				 xor	 di, di
+     53	    004A  33 C0			 l2:	 xor	 ax, ax
+     54	    004C  2E: 8A 05			 mov	 al, cs:[di]
+     55	    004F  B3 10				 mov	 bl, 16
+     56	    0051  F6 F3				 div	 bl
+     57	    0053  8A D0				 mov	 dl, al
+Turbo Assembler	 Version 2.0	    11/28/15 19:12:14	    Page 2
+src\acs\lab9.asm
+
+
+
+     58	    0055  E8 FFA8			 call	 asc
+     59	    0058  26: 88 15			 mov	 es:[di], dl
+     60	    005B  47				 inc	 di
+     61	    005C  26: C7 05 000F		 mov	 es:[di], 0fh
+*Warning* src\acs\lab9.asm(61) Argument	needs type override
+     62	    0061  47				 inc	 di
+     63	    0062  8A D4				 mov	 dl, ah
+     64	    0064  E8 FF99			 call	 asc
+     65	    0067  26: 88 15			 mov	 es:[di], dl
+     66	    006A  47				 inc	 di
+     67	    006B  26: C7 05 000F		 mov	 es:[di], 0fh
+*Warning* src\acs\lab9.asm(67) Argument	needs type override
+     68	    0070  47				 inc	 di
+     69	    0071  E2 D7				 loop	 l2
+     70
+     71	    0073  B4 01				 mov	 ah, 01h
+     72	    0075  CD 21				 int	 21h
+     73	    0077  E8 FFAA			 call	 retpg
+     74
+     75	    007A  B8 4C00			 mov	 ax, 4C00h
+     76	    007D  CD 21			 endm:	 int	 21h
+*Warning* src\acs\lab9.asm(76) Reserved	word used as symbol: ENDM
+     77
+     78						 end	 start
+Turbo Assembler	 Version 2.0	    11/28/15 19:12:14	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/28/15"
+??FILENAME			  Text	 "lab9	  "
+??TIME				  Text	 "19:12:14"
+??VERSION			  Number 0200
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0D0FH
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 LAB9
+@MODEL				  Text	 2
+@WORDSIZE			  Text	 2
+ASC				  Near	 _TEXT:0000
+CLRSCR				  Near	 _TEXT:000E
+ENDM				  Near	 _TEXT:007D
+L1				  Near	 _TEXT:000D
+L2				  Near	 _TEXT:004A
+RETPG				  Near	 _TEXT:0024
+START				  Near	 _TEXT:0034
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  007F Word	  Public  CODE
+Turbo Assembler	 Version 2.0	    11/28/15 19:12:14	    Page 4
+Error Summary
+
+
+
+*Warning* src\acs\lab9.asm(61) Argument	needs type override
+*Warning* src\acs\lab9.asm(67) Argument	needs type override
+*Warning* src\acs\lab9.asm(76) Reserved	word used as symbol: ENDM
+
