@@ -12,28 +12,20 @@ asc     proc
 l1:     ret
 asc     endp
 
-clrscr  proc
+setpg   proc
         pusha
         mov     ah, 05
-        mov     al, 0
-        int     10h
-
-        mov     ax, 0600h 
-        mov     bh, 07    
-        mov     cx, 0000  
-        mov     dx, 184fh
-        int     10h       
+        mov     al, 1
+        int     10h    
         popa
         ret
-clrscr   endp
+setpg   endp
 
 retpg   proc
         pusha
-        mov     ax, 0700h 
-        mov     bh, 07    
-        mov     cx, 0000  
-        mov     dx, 184fh 
-        int     10h       
+        mov     ah, 05
+        mov     al, 0
+        int     10h     
         popa
         ret
 retpg   endp
@@ -41,13 +33,13 @@ retpg   endp
 start:  mov     ax, @data
         mov     ds, ax
  
-        mov     ax, 0B800h
+        mov     ax, 0B900h
         mov     es, ax
 
         mov     cx, offset endm
         sub     cx, offset start
  
-        call    clrscr
+        call    setpg
                 
         xor     di, di
 l2:     xor     ax, ax
